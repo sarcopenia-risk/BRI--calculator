@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRI 计算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>BRI 计算器</h1>
+        
+        <label for="waist">腰围 (cm):</label>
+        <input type="number" id="waist" placeholder="请输入腰围" required>
+        
+        <label for="height">身高 (cm):</label>
+        <input type="number" id="height" placeholder="请输入身高" required>
+        
+        <button onclick="calculateBRI()">计算 BRI</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+    function calculateBRI() {
+        // 获取输入的腰围和身高
+        var waist = document.getElementById('waist').value;
+        var height = document.getElementById('height').value;
+
+        // 检查输入是否有效
+        if (isNaN(waist) || isNaN(height) || waist <= 0 || height <= 0) {
+            alert("请输入有效的腰围和身高！");
+            return;
+        }
+
+        // 转换为浮动数字
+        waist = parseFloat(waist);
+        height = parseFloat(height);
+
+        // 计算腰围和身高的相关值
+        var radiusWaist = waist / (2 * Math.PI);  // 腰围部分
+        var radiusHeight = 0.5 * height;  // 身高部分
+
+        // 打印中间结果查看
+        console.log("腰围部分 (radiusWaist): " + radiusWaist);
+        console.log("身高部分 (radiusHeight): " + radiusHeight);
+
+        // 计算 BRI
+        var intermediate = Math.pow(radiusWaist, 2) / Math.pow(radiusHeight, 2);
+        console.log("腰围与身高的平方比 (intermediate): " + intermediate);
+
+        var sqrtResult = Math.sqrt(1 - intermediate);
+        console.log("平方根结果 (sqrtResult): " + sqrtResult);
+
+        var BRI = 364.2 - 365.5 * sqrtResult;
+        console.log("最终 BRI 值: " + BRI);
+
+        // 显示结果
+        document.getElementById('result').textContent = "BRI = " + BRI.toFixed(2);
+    }
+    </script>
+
+</body>
+</html>
